@@ -196,6 +196,16 @@ input::placeholder { color: var(--text3); }
         </select>
       </div>
 
+      <div class="field">
+        <label>Language <span class="indicator ind-empty" id="ind-lang"></span></label>
+        <select id="f-lang" class="empty" onchange="update(this,'ind-lang')">
+          <option value="">— Select —</option>
+          <option value="ENG">ENG — English</option>
+          <option value="CHI">CHI — Chinese / 中文</option>
+          <option value="MAL">MAL — Malay / Melayu</option>
+        </select>
+      </div>
+
       <div class="field" style="grid-column:1/-1; max-width:220px;">
         <label>Launch Date <span class="indicator ind-empty" id="ind-mmyy"></span></label>
         <input type="date" id="f-mmyy" onchange="updateText('ind-mmyy')">
@@ -313,7 +323,7 @@ input::placeholder { color: var(--text3); }
     <div class="part-header">
       <span class="part-tag tag-publish">Campaign</span>
       <span class="part-title">Campaign Level Name</span>
-      <span class="part-who">brand-product-objective-funnel-date</span>
+      <span class="part-who">brand-product-objective-funnel-lang-date</span>
     </div>
     <div class="fields">
 
@@ -344,6 +354,16 @@ input::placeholder { color: var(--text3); }
         <label>Funnel <span class="indicator ind-empty" id="ind-cf"></span></label>
         <select id="fc-funn" class="empty" onchange="updateCampaign(this,'ind-cf')">
           <option value="">— Select —</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Language <span class="indicator ind-empty" id="ind-cl"></span></label>
+        <select id="fc-lang" class="empty" onchange="updateCampaign(this,'ind-cl')">
+          <option value="">— Select —</option>
+          <option value="ENG">ENG — English</option>
+          <option value="CHI">CHI — Chinese / 中文</option>
+          <option value="MAL">MAL — Malay / Melayu</option>
         </select>
       </div>
 
@@ -626,6 +646,7 @@ function generate() {
   const fmt    = val('f-format');
   const hook   = val('f-hook');
   const vn     = val('f-vn');
+  const lang   = val('f-lang');
   const date   = getDateValue();
   const obj    = val('f-obj');
   const funn   = val('f-funn');
@@ -633,7 +654,7 @@ function generate() {
   const age    = getAgeValue();
 
   // Part 1 — Creative ID
-  const p1Fields = [brand, prod, angle, fmt, hook, vn, date];
+  const p1Fields = [brand, prod, angle, fmt, hook, vn, lang, date];
   const p1Complete = p1Fields.every(Boolean);
   const p1 = p1Fields.filter(Boolean).join('-');
 
@@ -715,9 +736,10 @@ function generateCampaign() {
   const prod  = document.getElementById('fc-prod').value;
   const obj   = document.getElementById('fc-obj').value;
   const funn  = document.getElementById('fc-funn').value;
+  const lang  = document.getElementById('fc-lang').value;
   const date  = getCampaignDate();
 
-  const fields = [brand, prod, obj, funn, date];
+  const fields = [brand, prod, obj, funn, lang, date];
   const complete = fields.every(Boolean);
   const name = fields.filter(Boolean).join('-');
 
@@ -737,11 +759,11 @@ function generateCampaign() {
 }
 
 function resetCampaign() {
-  ['fc-brand','fc-prod','fc-obj','fc-funn'].forEach(id => {
+  ['fc-brand','fc-prod','fc-obj','fc-funn','fc-lang'].forEach(id => {
     const s = document.getElementById(id); s.value = ''; s.classList.add('empty');
   });
   document.getElementById('fc-date').value = '';
-  ['ind-cb','ind-cp','ind-co','ind-cf','ind-cd2'].forEach(id =>
+  ['ind-cb','ind-cp','ind-co','ind-cf','ind-cl','ind-cd2'].forEach(id =>
     document.getElementById(id).className = 'indicator ind-empty'
   );
   const el = document.getElementById('campaignName');
