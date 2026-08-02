@@ -323,7 +323,7 @@ input::placeholder { color: var(--text3); }
     <div class="part-header">
       <span class="part-tag tag-publish">Campaign</span>
       <span class="part-title">Campaign Level Name</span>
-      <span class="part-who">brand-product-objective-funnel-lang-date</span>
+      <span class="part-who">brand-type-product-objective-funnel-lang-date</span>
     </div>
     <div class="fields">
 
@@ -334,6 +334,16 @@ input::placeholder { color: var(--text3); }
           <option value="WSP">WSP</option>
           <option value="RUV">RUV</option>
         </select>
+      </div>
+
+      <div class="field">
+        <label>Business Type <span class="indicator ind-empty" id="ind-cm"></span></label>
+        <select id="fc-motion" class="empty" onchange="updateCampaign(this,'ind-cm')">
+          <option value="">— Select —</option>
+          <option value="DTC">DTC — Direct to Consumer</option>
+          <option value="B2B">B2B — Business to Business</option>
+        </select>
+        <span class="field-hint">Required: DTC or B2B</span>
       </div>
 
       <div class="field">
@@ -733,13 +743,14 @@ function getCampaignDate() {
 
 function generateCampaign() {
   const brand = document.getElementById('fc-brand').value;
+  const motion = document.getElementById('fc-motion').value;
   const prod  = document.getElementById('fc-prod').value;
   const obj   = document.getElementById('fc-obj').value;
   const funn  = document.getElementById('fc-funn').value;
   const lang  = document.getElementById('fc-lang').value;
   const date  = getCampaignDate();
 
-  const fields = [brand, prod, obj, funn, lang, date];
+  const fields = [brand, motion, prod, obj, funn, lang, date];
   const complete = fields.every(Boolean);
   const name = fields.filter(Boolean).join('-');
 
@@ -759,11 +770,11 @@ function generateCampaign() {
 }
 
 function resetCampaign() {
-  ['fc-brand','fc-prod','fc-obj','fc-funn','fc-lang'].forEach(id => {
+  ['fc-brand','fc-motion','fc-prod','fc-obj','fc-funn','fc-lang'].forEach(id => {
     const s = document.getElementById(id); s.value = ''; s.classList.add('empty');
   });
   document.getElementById('fc-date').value = '';
-  ['ind-cb','ind-cp','ind-co','ind-cf','ind-cl','ind-cd2'].forEach(id =>
+  ['ind-cb','ind-cm','ind-cp','ind-co','ind-cf','ind-cl','ind-cd2'].forEach(id =>
     document.getElementById(id).className = 'indicator ind-empty'
   );
   const el = document.getElementById('campaignName');
